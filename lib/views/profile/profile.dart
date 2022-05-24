@@ -17,6 +17,7 @@ import 'package:sinam/helpers/message.dart';
 import 'package:sinam/view_models/init_view_model.dart';
 import 'package:sinam/views/reset_pass/reset_pass.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -26,7 +27,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   final _formKey = GlobalKey<FormState>();
   bool submitSt = true;
   String? name, phoneNumber, email;
@@ -38,7 +38,9 @@ class _ProfileState extends State<Profile> {
 
     initViewModel = context.read<InitViewModel>();
     name = initViewModel.customerName ?? '';
-    phoneNumber = (initViewModel.customerPhonePrefix ?? '') + ' ' + (initViewModel.customerNumber ?? '');
+    phoneNumber = (initViewModel.customerPhonePrefix ?? '') +
+        ' ' +
+        (initViewModel.customerNumber ?? '');
     email = initViewModel.customerEmail ?? '';
   }
 
@@ -59,7 +61,34 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget profileBody(){
+  // void setSideMenu() {
+  //   for (var element in AppConfig.sideMenu!) {
+  //     if (element.id == 1) {
+  //       element.active = true;
+  //     } else {
+  //       element.active = false;
+  //     }
+  //   }
+  // }
+
+  void openURL(String url) async {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => Scaffold(
+                body: WebView(
+              initialUrl: url,
+            ))));
+    /*try {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        Message.show(context, AppLocalizations.of(context)!.translate('browser_error'));
+      }
+    } catch (error) {
+      if(!AppConfig.isPublished){ print('error: $error'); }
+    }*/
+  }
+
+  Widget profileBody() {
     return Container(
       height: AppConfig.screenHeight,
       decoration: Helper.appBackgroundDecoration(),
@@ -71,14 +100,23 @@ class _ProfileState extends State<Profile> {
               title: AppLocalizations.of(context)!.translate('profile'),
               submitSt: submitSt,
               innerDrawerKey: null,
-              actionButton: AppConfig.offlineSt == false ? SizedBox( width: 45,
-                child: TextButton(onPressed: () async{
-                  await Future.delayed(const Duration(milliseconds: 250));
-                  submitForm();
-                }, child: Text(AppLocalizations.of(context)!.translate('save'), style: const TextStyle(fontSize: 12))),
-              ) : Container(width: 35),
+              actionButton: AppConfig.offlineSt == false
+                  ? SizedBox(
+                      width: 45,
+                      child: TextButton(
+                          onPressed: () async {
+                            await Future.delayed(
+                                const Duration(milliseconds: 250));
+                            submitForm();
+                          },
+                          child: Text(
+                              AppLocalizations.of(context)!.translate('save'),
+                              style: const TextStyle(fontSize: 12))),
+                    )
+                  : Container(width: 35),
             ),
           ),
+           
           SizedBox(height: ScreenUtil().setHeight(5)),
           Expanded(
             child: FadeInUp(
@@ -92,25 +130,27 @@ class _ProfileState extends State<Profile> {
                     bottom: 0,
                     child: Container(
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(40),
+                            topLeft: Radius.circular(40)),
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: <Color>[
-                            Color(0xffb3e4ff),
-                            Color(0xffffffff)
-                          ],
+                          colors: <Color>[Color(0xffb3e4ff), Color(0xffffffff)],
                         ),
                       ),
                       child: profileForm(),
                     ),
                   ),
                   Positioned(
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    child: Center(child: AvatarView(url: null, width: ScreenUtil().setWidth(110), height: ScreenUtil().setWidth(110)))
-                  ),
+                      top: 0,
+                      right: 0,
+                      left: 0,
+                      child: Center(
+                          child: AvatarView(
+                              url: null,
+                              width: ScreenUtil().setWidth(110),
+                              height: ScreenUtil().setWidth(110)))),
                 ],
               ),
             ),
@@ -120,7 +160,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget profileForm(){
+  Widget profileForm() {
     return FadingEdgeScrollView.fromSingleChildScrollView(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -135,7 +175,8 @@ class _ProfileState extends State<Profile> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 6.0, bottom: 5),
-                  child: Text(AppLocalizations.of(context)!.translate('full_name')),
+                  child: Text(
+                      AppLocalizations.of(context)!.translate('full_name')),
                 ),
                 AppTextField(
                   isEnable: AppConfig.offlineSt ? false : submitSt,
@@ -145,24 +186,31 @@ class _ProfileState extends State<Profile> {
                   borderColor: Colors.grey[400],
                   textInputType: TextInputType.text,
                   inputAction: TextInputAction.next,
-                  labelText: AppLocalizations.of(context)!.translate('enter_your_full_name'),
+                  labelText: AppLocalizations.of(context)!
+                      .translate('enter_your_full_name'),
                   suffixIcon: Container(width: 0),
-                  onChanged: (value){ setState(() { name = value; });},
-                  onValidate: (value){
+                  onChanged: (value) {
+                    setState(() {
+                      name = value;
+                    });
+                  },
+                  onValidate: (value) {
                     if (value.isEmpty) {
-                      return AppLocalizations.of(context)!.translate('full_name_empty_validate');
+                      return AppLocalizations.of(context)!
+                          .translate('full_name_empty_validate');
                     }
 
                     if (value.length < 3) {
-                      return AppLocalizations.of(context)!.translate('full_name_len_empty_validate');
+                      return AppLocalizations.of(context)!
+                          .translate('full_name_len_empty_validate');
                     }
                     return null;
                   },
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(left: 6.0, bottom: 5, top: 20),
-                  child: Text(AppLocalizations.of(context)!.translate('phone_number')),
+                  child: Text(
+                      AppLocalizations.of(context)!.translate('phone_number')),
                 ),
                 AppTextField(
                   isEnable: false,
@@ -171,24 +219,31 @@ class _ProfileState extends State<Profile> {
                   borderColor: Colors.grey[400],
                   textInputType: TextInputType.phone,
                   inputAction: TextInputAction.next,
-                  labelText: AppLocalizations.of(context)!.translate('enter_your_phone_number'),
+                  labelText: AppLocalizations.of(context)!
+                      .translate('enter_your_phone_number'),
                   suffixIcon: Container(width: 0),
                   value: phoneNumber,
-                  onChanged: (value){ setState(() { phoneNumber = value; });},
-                  onValidate: (value){
+                  onChanged: (value) {
+                    setState(() {
+                      phoneNumber = value;
+                    });
+                  },
+                  onValidate: (value) {
                     if (value.isEmpty) {
-                      return AppLocalizations.of(context)!.translate('phone_number_empty_validate');
+                      return AppLocalizations.of(context)!
+                          .translate('phone_number_empty_validate');
                     }
-                    if (!value.startsWith('0') && !value.startsWith('+')){
-                      return AppLocalizations.of(context)!.translate('phone_validate');
+                    if (!value.startsWith('0') && !value.startsWith('+')) {
+                      return AppLocalizations.of(context)!
+                          .translate('phone_validate');
                     }
                     if (value.length < 11) {
-                      return AppLocalizations.of(context)!.translate('phone_number_len_validate');
+                      return AppLocalizations.of(context)!
+                          .translate('phone_number_len_validate');
                     }
                     return null;
                   },
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(left: 6.0, bottom: 5, top: 20),
                   child: Text(AppLocalizations.of(context)!.translate('email')),
@@ -201,41 +256,69 @@ class _ProfileState extends State<Profile> {
                   textInputType: TextInputType.emailAddress,
                   inputAction: TextInputAction.done,
                   value: email,
-                  labelText: AppLocalizations.of(context)!.translate('enter_your_email'),
+                  labelText: AppLocalizations.of(context)!
+                      .translate('enter_your_email'),
                   suffixIcon: Container(width: 0),
-                  onChanged: (value){ setState(() { email = value; });},
-                  onValidate: (value){
-                    Pattern pattern = '[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}';
+                  onChanged: (value) {
+                    setState(() {
+                      email = value;
+                    });
+                  },
+                  onValidate: (value) {
+                    Pattern pattern =
+                        '[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}';
                     if (value.isEmpty) {
-                      return AppLocalizations.of(context)!.translate('email_empty_validate');
+                      return AppLocalizations.of(context)!
+                          .translate('email_empty_validate');
                     }
                     if (value.length < 3) {
-                      return AppLocalizations.of(context)!.translate('email_len_validate');
+                      return AppLocalizations.of(context)!
+                          .translate('email_len_validate');
                     }
-                    if (!RegExp(pattern.toString()).hasMatch(value)){
-                      return AppLocalizations.of(context)!.translate('email_validate');
+                    if (!RegExp(pattern.toString()).hasMatch(value)) {
+                      return AppLocalizations.of(context)!
+                          .translate('email_validate');
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 15 ),
+                const SizedBox(height: 15),
+                 Row(
+                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                
+                   children:[
+                  const   Text("Go to dashboard"),
+                      IconButton(
+                           onPressed: () {
+                             print("checking");
+                             openURL(AppConfig.payBillsURL);
+                           },
+                           icon:const Icon(Icons.dashboard_outlined),
+                         ),]
+                 ),
                 Center(
                   child: TextButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         await Future.delayed(const Duration(milliseconds: 250));
-                        if(!AppConfig.offlineSt){
-                          AppNavigator.push(context: context, page: const ResetPass());
-                        }else{
-                          Message.show(context, AppLocalizations.of(context)!.translate('connection_error_description'));
+                        if (!AppConfig.offlineSt) {
+                          AppNavigator.push(
+                              context: context, page: const ResetPass());
+                        } else {
+                          Message.show(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .translate('connection_error_description'));
                         }
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
-                        child: Text(AppLocalizations.of(context)!.translate('change_password'), style: TextStyle(
-                            fontSize: 14, color: Colors.blue[700]
-                        )),
-                      )
-                  ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 5.0),
+                        child: Text(
+                            AppLocalizations.of(context)!
+                                .translate('change_password'),
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.blue[700])),
+                      )),
                 )
               ],
             ),
@@ -245,45 +328,60 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  void submitForm() async{
+  void submitForm() async {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState!.validate()) {
-      setState(() {submitSt = false;});
+      setState(() {
+        submitSt = false;
+      });
       showDialog(context: context, builder: (context) => const LoadingDialog());
-      try{
-        dynamic result = await context.read<InitViewModel>().updateProfile(context, postData: {
+      try {
+        dynamic result = await context
+            .read<InitViewModel>()
+            .updateProfile(context, postData: {
           'api_key': AppConfig.apiKey,
           'customer_id': initViewModel.customerID,
           'name': name,
           'given_name': name
         });
         Navigator.pop(context);
-        setState(() { submitSt = true;});
-        if(result is Map<String, dynamic>){
+        setState(() {
+          submitSt = true;
+        });
+        if (result is Map<String, dynamic>) {
           initViewModel.setCustomerName(name);
           Message.show(context, result['message']);
           await Future.delayed(const Duration(seconds: 4));
           Navigator.pop(context);
-        }else{
-          Message.show(context, AppLocalizations.of(context)!.translate('went_wrong'));
+        } else {
+          Message.show(
+              context, AppLocalizations.of(context)!.translate('went_wrong'));
         }
-      }catch(error){
-        if(!AppConfig.isPublished){print('error $error');}
-        setState(() { submitSt = true;});
-        if(error == 'connection_error_description'){
+      } catch (error) {
+        if (!AppConfig.isPublished) {
+          print('error $error');
+        }
+        setState(() {
+          submitSt = true;
+        });
+        if (error == 'connection_error_description') {
           String? connectionError;
-          if(AppConfig.selectedLanguage == 'en'){
-            if(AppConfig.connectionErrorEn != null){
+          if (AppConfig.selectedLanguage == 'en') {
+            if (AppConfig.connectionErrorEn != null) {
               connectionError = AppConfig.connectionErrorEn;
             }
-          }else{
-            if(AppConfig.connectionErrorFr != null){
+          } else {
+            if (AppConfig.connectionErrorFr != null) {
               connectionError = AppConfig.connectionErrorFr;
             }
           }
-          Message.show(context, AppLocalizations.of(context)!.translate(connectionError ?? error.toString()));
-        }else{
-          Message.show(context, AppLocalizations.of(context)!.translate(error.toString()));
+          Message.show(
+              context,
+              AppLocalizations.of(context)!
+                  .translate(connectionError ?? error.toString()));
+        } else {
+          Message.show(context,
+              AppLocalizations.of(context)!.translate(error.toString()));
         }
       }
     }

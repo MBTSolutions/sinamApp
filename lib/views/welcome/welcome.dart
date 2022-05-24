@@ -258,7 +258,8 @@ class _WelcomeState extends State<Welcome> {
 
   Widget welcomeBody(){
     return Container(
-      height: AppConfig.screenHeight,
+      // height: AppConfig.screenHeight,
+      height: 500,
       decoration: Helper.appBackgroundDecoration(),
       child: Column(
         children: [
