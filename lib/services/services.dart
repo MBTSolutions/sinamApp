@@ -84,7 +84,7 @@ class Services{
           final url = AppConfig.apiURL + endPoint;
           final http.Response response = await http.post(Uri.parse(url), headers: headers, body: jsonEncode(postData ?? {}));
           if(!AppConfig.isPublished)
-            print(response.body);
+            print("${response.body}");
           if (response.statusCode == 200 || response.statusCode == 204) {
             if (!AppConfig.isPublished) {print('$endPoint response: ${response.body}');}
             if (response.body.isNotEmpty) {
