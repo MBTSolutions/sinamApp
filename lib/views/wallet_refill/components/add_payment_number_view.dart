@@ -85,7 +85,7 @@ class _AddPaymentNumberViewState extends State<AddPaymentNumberView> {
                         ),
                         child: CountryCodePicker(
                             initialSelection: selectedCountryCode,
-                            countryFilter: [selectedCountryCode!],
+                           // countryFilter: [selectedCountryCode!],
                             enabled: false,
                         ),
                       ),

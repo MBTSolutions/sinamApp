@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +14,8 @@ import 'helpers/custom_scroll_behavior.dart';
 import 'helpers/font_size_and_locale_controller.dart';
 import 'view_models/wallet_view_model.dart';
 import 'views/splash/splash.dart';
+import 'package:http/http.dart';
+
  class MyHttpOverrides extends HttpOverrides{
   @override
   HttpClient createHttpClient(SecurityContext? context){
@@ -23,6 +24,9 @@ import 'views/splash/splash.dart';
   }
 }
 void main() {
+  
+  HttpOverrides.global = MyHttpOverrides();
+
   runApp(
     MultiProvider(
       providers: [

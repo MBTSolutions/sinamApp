@@ -113,7 +113,7 @@ class _MobilePaymentFragmentState extends State<MobilePaymentFragment> with Auto
                                   onPressed: () => addNumberTapped(),
                                   child: Row(
                                     children: [
-                                      const Icon(Icons.add_circle_outline, size: 20),
+                                      const Icon(Icons.add_circle_outline, size: 30),
                                       const SizedBox(width: 6),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 1.0),
@@ -376,7 +376,7 @@ class _MobilePaymentFragmentState extends State<MobilePaymentFragment> with Auto
                     ],
                   ),
                 ),
-                const SizedBox(height: 5),
+                const    SizedBox(height: 5),
                 Expanded(
                   child: AddPaymentNumberView(onReload: () => setState(() {})),
                 ),
