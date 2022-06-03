@@ -115,6 +115,47 @@ class _AddPaymentNumberViewState extends State<AddPaymentNumberView> {
                   )),
                 ],
               ),
+               Focus(
+                descendantsAreFocusable: false,
+                child: DropdownButtonFormField(
+                  style: const TextStyle(fontSize: 17, color: Colors.grey),
+                  iconEnabledColor: Colors.grey[600],
+                  decoration: Helper.dropDownInputDecoration(),
+                  items: operatorList.map<DropdownMenuItem<OperatorModel>>((OperatorModel value) {
+                    return DropdownMenuItem<OperatorModel>(
+                      value: value,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 3.0),
+                        child: Row(
+                          children: [
+                            ImageView(
+                              url: value.sendMoneyFlag,
+                              width: 25.0,
+                              height: 25.0,
+                            ),
+                            const SizedBox(width: 10),
+                            Text(value.operatorName, style: const TextStyle(color: Colors.black, fontSize: 14)),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  //value: selectedOperatorList.toString(),
+                  dropdownColor: Colors.grey[200],
+                  isExpanded: true,
+                  hint: Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: Text(AppLocalizations.of(context)!.translate('select_your_operator'), style: TextStyle(color: Colors.grey[500], fontSize: 14)),
+                  ),
+                  onChanged: submitSt ? (value) => setState(() { selectedOperatorList = value as OperatorModel?; FocusManager.instance.primaryFocus!.unfocus(); } ) : null,
+                  validator: (value){
+                    if(value == null){
+                      return AppLocalizations.of(context)!.translate('select_your_operator');
+                    }
+                    return null;
+                  },
+                ),
+              ),
               const SizedBox(height: 30),
               Focus(
                 descendantsAreFocusable: false,
