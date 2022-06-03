@@ -16,6 +16,7 @@ import 'view_models/wallet_view_model.dart';
 import 'views/splash/splash.dart';
 import 'package:http/http.dart';
 
+
  class MyHttpOverrides extends HttpOverrides{
   @override
   HttpClient createHttpClient(SecurityContext? context){

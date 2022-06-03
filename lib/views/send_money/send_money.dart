@@ -38,7 +38,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import '../../helpers/image_view.dart';
 import '../wallet_refill/components/add_payment_number_view.dart';
 
 class SendMoney extends StatefulWidget {
@@ -68,21 +67,14 @@ class _SendMoneyState extends State<SendMoney> {
 
   Map<int, String> operatorList = {};
   int? selectedOperatorList;
- List<OperatorModel> operatorList1 = [];
-  
-  OperatorModel? selectedOperatorList1;
-  DictionaryModel? dictionaryModel1;
-  InitModel? initModel1;
-  String? selectedCountryCode1;
-  String? phoneNumber1;
-  bool submitSt1 = true;
+
   List<String> transferReasonsList = [""];
   String? selectedReason;
 
   TextEditingController phoneNumberController = TextEditingController();
 
   bool fromContact = false;
-  // late InitViewModel initViewModel;
+
  void addNumberTapped() async{
     await Future.delayed(const Duration(milliseconds: 250));
     showMaterialModalBottomSheet(
@@ -119,8 +111,7 @@ class _SendMoneyState extends State<SendMoney> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      
-                      // Text(AppLocalizations.of(context)!.translate('add_customer_currency')),
+
                       SizedBox(width: 40, child: TextButton(onPressed: () async{
                         await Future.delayed(const Duration(milliseconds: 250));
                         Navigator.of(context).pop();
@@ -961,52 +952,7 @@ class _SendMoneyState extends State<SendMoney> {
                     style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 10),
-              // Expanded(
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.stretch,
-              //     children: [
-                    
-              //       // if (dictionaryModel != null &&
-              //       //     dictionaryModel!.destinationCountries != null)
-              //       //   Builder(builder: (context) {
-              //       //     DestinationCountryModel? destination = dictionaryModel!
-              //       //         .destinationCountries
-              //       //         ?.where((element) =>
-              //       //             element.countryCode == selectedCountryCode)
-              //       //         .toList()[0];
-              //       //     if (destination != null) {
-              //       //       return Text(
-              //       //           'You can send between ${getExchangedAmount(destination, destination.minAmount.toDouble()).toStringAsFixed(3)}${(initModel!.customerSelectedCurrencySymbol)} - ${getExchangedAmount(destination, destination.maxAmount.toDouble()).toStringAsFixed(3)}${initModel!.customerSelectedCurrencySymbol}',
-              //       //           style: TextStyle(
-              //       //             fontSize: 12,
-              //       //             color: Colors.black87.withOpacity(0.75),
-              //       //           ));
-              //       //     }
-              //       //     return const SizedBox();
-              //       //   }),
-              //           // AppTextField(
-              //           //     labelText: AppLocalizations.of(context)!.translate('enter_refill_amount'),
-              //           //     borderRadius: 30,
-              //           //     borderColor: const Color(0xffc3efff),
-              //           //     backgroundColor: const Color(0xffc3efff),
-              //           //     textInputType: TextInputType.number,
-              //           //     inputAction: TextInputAction.done,
-              //           //     onChanged: (value){ setState(() { amount = value; });},
-              //           //     onValidate: (value){
-              //           //       if(value.isEmpty){
-              //           //         return AppLocalizations.of(context)!.translate('amount_empty_validate');
-              //           //       }
-              //           //       return null;
-              //           //     },
-              //           //     suffixIcon: Padding(
-              //           //       padding: const EdgeInsets.only(right: 12.0),
-              //           //       child: Text(initModel?.customerSelectedCurrencyCode ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey[500]),),
-              //           //     ),
-              //           //   ),
-              //     ],
-              //   ),
-              // ),
-                 
+
                      TextButton(
                                   onPressed: () {
                                   return addNumberTapped();                                  
