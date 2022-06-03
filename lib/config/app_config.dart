@@ -17,7 +17,7 @@ class AppConfig {
   static String? initToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MjY4ODA5MywianRpIjoiNWFlZjNiODMtOWFmNy00MTcyLWIwZDQtNWU1MTBmYmY5OTIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1c2VybmFtZSI6Im1vYmlsZS5kZXYiLCJyb2xlIjoibW9iaWxlX2luaXQifSwibmJmIjoxNjQyNjg4MDkzLCJleHAiOjE2NTA0NjQwOTN9.OqMQgs9WZrKvuR4FuVd_2yQG63l5hLJX0gkyQKmmMR8';
 
   static const bool isPublished = false;
-  static String apiURL = 'https://hubformobiletopup.online/';
+  static String apiURL = 'https://sinam.tel/';
 
   static List<SideMenu>? sideMenu;
 

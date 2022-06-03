@@ -16,6 +16,7 @@ import 'view_models/wallet_view_model.dart';
 import 'views/splash/splash.dart';
 import 'package:http/http.dart';
 
+
  class MyHttpOverrides extends HttpOverrides{
   @override
   HttpClient createHttpClient(SecurityContext? context){
@@ -23,7 +24,6 @@ import 'package:http/http.dart';
       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
-
 void main() {
   
   HttpOverrides.global = MyHttpOverrides();

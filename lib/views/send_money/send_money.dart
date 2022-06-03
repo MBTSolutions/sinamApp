@@ -53,7 +53,7 @@ class _SendMoneyState extends State<SendMoney> {
       GlobalKey<InnerDrawerState>();
   PhoneContact? phoneContact;
   bool submitSt = true;
-  bool? termsSt = true;
+  bool? termsSt = false;
   String? selectedCountryCode;
   String? selectedPhonePrefix;
   String? phoneNumber, name, amount;
@@ -74,7 +74,7 @@ class _SendMoneyState extends State<SendMoney> {
   TextEditingController phoneNumberController = TextEditingController();
 
   bool fromContact = false;
- 
+
  void addNumberTapped() async{
     await Future.delayed(const Duration(milliseconds: 250));
     showMaterialModalBottomSheet(
@@ -111,7 +111,7 @@ class _SendMoneyState extends State<SendMoney> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(AppLocalizations.of(context)!.translate('add_customer_currency')),
+
                       SizedBox(width: 40, child: TextButton(onPressed: () async{
                         await Future.delayed(const Duration(milliseconds: 250));
                         Navigator.of(context).pop();
@@ -739,6 +739,37 @@ class _SendMoneyState extends State<SendMoney> {
       ),
       child: Column(
         children: [
+          // AppTextField(
+          //             labelText: '',
+          //             textInputFormatter: [
+          //               FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+          //               TextInputFormatter.withFunction((oldValue, newValue) {
+          //                 try {
+          //                   final text = newValue.text;
+          //                   if (text.isNotEmpty) double.parse(text);
+          //                   return newValue;
+          //                 } catch (e) {}
+          //                 return oldValue;
+          //               }),
+          //             ],
+          //             borderRadius: 10,
+          //             borderColor: Colors.grey[500],
+          //             textInputType: TextInputType.number,
+          //             inputAction: TextInputAction.done,
+          //             onChanged: (value) {
+          //               setState(() {
+          //                 amount = value;
+          //               });
+          //             },
+          //             suffixIcon: Container(width: 0),
+          //             onValidate: (value) {
+          //               if (value.isEmpty) {
+          //                 return AppLocalizations.of(context)!
+          //                     .translate('amount_empty_validate');
+          //               }
+          //               return null;
+          //             },
+          //           ),
           Focus(
             descendantsAreFocusable: false,
             child: DropdownButtonFormField(
@@ -844,7 +875,69 @@ class _SendMoneyState extends State<SendMoney> {
               },
             ),
           ),
-          const SizedBox(height: 10),
+          // const SizedBox(height: 10),
+        //  Focus(
+        //         descendantsAreFocusable: false,
+        //         child: DropdownButtonFormField(
+                  
+        //           style: const TextStyle(fontSize: 17, color: Colors.grey),
+        //           iconEnabledColor: Colors.grey[600],
+        //           decoration: Helper.dropDownInputDecoration(),
+        //           items: operatorList1.map<DropdownMenuItem<OperatorModel>>((OperatorModel value) {
+        //             return DropdownMenuItem<OperatorModel>(
+        //               value: value,
+        //               child: Padding(
+        //                 padding: const EdgeInsets.only(top: 3.0),
+        //                 child: Row(
+        //                   children: [
+        //                     ImageView(
+        //                       url: value.sendMoneyFlag,
+        //                       width: 25.0,
+        //                       height: 25.0,
+        //                     ),
+        //                     const SizedBox(width: 10),
+        //                     Text(value.operatorName, style: const TextStyle(color: Colors.black, fontSize: 14)),
+        //                   ],
+        //                 ),
+        //               ),
+        //             );
+        //           }).toList(),
+        //           //value: selectedOperatorList.toString(),
+        //           dropdownColor: Colors.grey[200],
+        //           isExpanded: true,
+        //           hint: Padding(
+        //             padding: const EdgeInsets.only(top: 3.0),
+        //             child: Text(AppLocalizations.of(context)!.translate('amount'), style: TextStyle(color: Colors.grey[500], fontSize: 14)),
+        //           ),
+        //           onChanged: submitSt ? (value) => setState(() { selectedOperatorList1 = value as OperatorModel?; FocusManager.instance.primaryFocus!.unfocus(); } ) : null,
+        //           validator: (value){
+        //             if(value == null){
+        //               return AppLocalizations.of(context)!.translate('amount');
+        //             }
+        //             return null;
+        //           },
+        //         ),
+        //       ),
+                AppTextField(
+                  labelText:"Enter Amount",
+                            // labelText: AppLocalizations.of(context)!.translate('enter_amount'),
+                            borderRadius: 30,
+                            borderColor: const Color(0xffc3efff),
+                            backgroundColor: const Color(0xffc3efff),
+                            textInputType: TextInputType.number,
+                            inputAction: TextInputAction.done,
+                            onChanged: (value){ setState(() { amount = value; });},
+                            onValidate: (value){
+                              if(value.isEmpty){
+                                return AppLocalizations.of(context)!.translate('amount_empty_validate');
+                              }
+                              return null;
+                            },
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: Text(initModel?.customerSelectedCurrencyCode ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey[500]),),
+                            ),
+                          ),
           Row(
             children: [
               Padding(
@@ -859,62 +952,7 @@ class _SendMoneyState extends State<SendMoney> {
                     style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AppTextField(
-                      labelText: '',
-                      textInputFormatter: [
-                        FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
-                        TextInputFormatter.withFunction((oldValue, newValue) {
-                          try {
-                            final text = newValue.text;
-                            if (text.isNotEmpty) double.parse(text);
-                            return newValue;
-                          } catch (e) {}
-                          return oldValue;
-                        }),
-                      ],
-                      borderRadius: 10,
-                      borderColor: Colors.grey[500],
-                      textInputType: TextInputType.number,
-                      inputAction: TextInputAction.done,
-                      onChanged: (value) {
-                        setState(() {
-                          amount = value;
-                        });
-                      },
-                      suffixIcon: Container(width: 0),
-                      onValidate: (value) {
-                        if (value.isEmpty) {
-                          return AppLocalizations.of(context)!
-                              .translate('amount_empty_validate');
-                        }
-                        return null;
-                      },
-                    ),
-                    // if (dictionaryModel != null &&
-                    //     dictionaryModel!.destinationCountries != null)
-                    //   Builder(builder: (context) {
-                    //     DestinationCountryModel? destination = dictionaryModel!
-                    //         .destinationCountries
-                    //         ?.where((element) =>
-                    //             element.countryCode == selectedCountryCode)
-                    //         .toList()[0];
-                    //     if (destination != null) {
-                    //       return Text(
-                    //           'You can send between ${getExchangedAmount(destination, destination.minAmount.toDouble()).toStringAsFixed(3)}${(initModel!.customerSelectedCurrencySymbol)} - ${getExchangedAmount(destination, destination.maxAmount.toDouble()).toStringAsFixed(3)}${initModel!.customerSelectedCurrencySymbol}',
-                    //           style: TextStyle(
-                    //             fontSize: 12,
-                    //             color: Colors.black87.withOpacity(0.75),
-                    //           ));
-                    //     }
-                    //     return const SizedBox();
-                    //   }),
-                  ],
-                ),
-              ),
+
                      TextButton(
                                   onPressed: () {
                                   return addNumberTapped();                                  
@@ -959,7 +997,7 @@ class _SendMoneyState extends State<SendMoney> {
       margin: const EdgeInsets.only(top: 20),
       child: GestureDetector(
         onTap: () => setState(() {
-          termsSt = termsSt != null ? !termsSt! : true;
+          termsSt = !termsSt!;
         }),
         child: Row(
           children: [
@@ -967,6 +1005,7 @@ class _SendMoneyState extends State<SendMoney> {
                 value: termsSt,
                 onChanged: (value) => setState(() {
                       termsSt = value;
+                      print("TermsST VALUE::$termsSt");
                     })),
             Text(AppLocalizations.of(context)!.translate('terms_agree'),
                 style: const TextStyle(fontSize: 13)),
@@ -1077,17 +1116,7 @@ class _SendMoneyState extends State<SendMoney> {
           .destinationCountries
           ?.where((element) => element.countryCode == selectedCountryCode)
           .toList()[0];
-      if (double.parse(amount == '' ? '0.0' : amount ?? '0.0') >
-              getExchangedAmount(
-                  destination!, destination.minAmount.toDouble()) &&
-          double.parse(amount == '' ? '0.0' : amount ?? '0.0') <
-              getExchangedAmount(
-                  destination, destination.maxAmount.toDouble())) {
-        if (termsSt != null && termsSt!) {
-          if (initModel!.customerVerified == 0 &&
-              selectedPhonePrefix != initModel!.customerPhonePrefix &&
-              initModel!.notificationMessage != null) {
-            showDialog(
+                showDialog(
                 context: context,
                 builder: (cntx) => MessageDialog(
                     title: AppLocalizations.of(context)!
@@ -1096,35 +1125,7 @@ class _SendMoneyState extends State<SendMoney> {
                       await Future.delayed(const Duration(milliseconds: 800));
                       openURL(initModel!.profileUpdateUrl);
                     }));
-          } else {
-            List<OperatorModel> operators = dictionaryModel!.operators!
-                .where(
-                    (element) => element.operatorCode == selectedOperatorList)
-                .toList();
-            if (operators.isEmpty) {
-              return Message.show(context, 'Unsupported operator');
-            }
-
-            try {
-              showDialog(
-                  context: context,
-                  builder: (context) => SendMoneyDialog(
-                        name: name,
-                        operator: operatorList[selectedOperatorList]!,
-                        explain: selectedReason,
-                        phoneNumber: phoneNumber!,
-                        amount: amount!,
-                        countryCode: selectedCountryCode,
-                        onPaypalClicked: () async {
-                          print(initModel!.globalSim1Name);
-                          print(operators.first.simName);
-                          initModel!.customerCountryCode = selectedCountryCode;
-                          operators.first.simName = initModel!.globalSim1Name!;
-                          if (initModel!.customerCountryCode ==
-                              selectedCountryCode) {
-                            if (operators.first.simName ==
-                                initModel!.globalSim1Name) {
-                              await showDialog(
+          await showDialog(
                                   context: context,
                                   builder: (_) => StatefulBuilder(
                                         builder: (_, setStateDialog) => Dialog(
@@ -1155,14 +1156,14 @@ class _SendMoneyState extends State<SendMoney> {
                                                                 context)!
                                                             .translate(
                                                                 'internal_send_fee'),
-                                                        style: TextStyle(
+                                                        style:const TextStyle(
                                                           fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
                                                       ),
                                                     ),
-                                                    Icon(
+                                                  const  Icon(
                                                       Icons.error_outline,
                                                       color: Colors.orange,
                                                       size: 60,
@@ -1198,7 +1199,7 @@ class _SendMoneyState extends State<SendMoney> {
                                                                         context)
                                                                     .pop();
                                                               },
-                                                              child: Text(
+                                                              child:const Text(
                                                                 'Cancel',
                                                                 style:
                                                                     TextStyle(
@@ -1237,7 +1238,7 @@ class _SendMoneyState extends State<SendMoney> {
                                                                             250));
                                                                 paypalClicked();
                                                               },
-                                                              child: Text(
+                                                              child:const Text(
                                                                   'Accept',
                                                                   style:
                                                                       TextStyle(
@@ -1255,58 +1256,101 @@ class _SendMoneyState extends State<SendMoney> {
                                           ),
                                         ),
                                       ));
-                            }
-                          } else {
-                            await Future.delayed(
-                                const Duration(milliseconds: 250));
-                            Navigator.pop(context);
-                            await Future.delayed(
-                                const Duration(milliseconds: 250));
-                            paypalClicked();
-                          }
-                        },
-                        onWalletClicked: () async {
-                          if (double.parse(amount ?? '0.0') >
-                              (initModel!.customerBalance ?? 0.0)) {
-                            //AppNavigator.pushReplace(context: context, page: const WalletRefill());
-                            //return;
-                          }
-                          if (initModel!.customerCountryCode ==
-                              selectedCountryCode) {
-                            if (operators.first.simName ==
-                                initModel!.globalSim1Name) {
-                              if (double.parse(amount ?? '0.0') +
-                                      initModel!.internalSendMoneyFee >
-                                  (initModel!.customerBalance ?? 0.0)) {
-                                AppNavigator.pushReplace(
-                                    context: context,
-                                    page: const WalletRefill());
-                                return;
-                              }
-                            }
-                          }
-                          await Future.delayed(
-                              const Duration(milliseconds: 250));
-                          Navigator.pop(context);
-                          await Future.delayed(
-                              const Duration(milliseconds: 250));
-                          walletClicked();
-                        },
-                      ));
-            } catch (error) {
-              if (!AppConfig.isPublished) {
-                print('error: $error');
-              }
-            }
-          }
-        } else {
-          Message.show(context,
-              AppLocalizations.of(context)!.translate('terms_agree_validate'));
-        }
-      } else {
-        Message.show(context,
-            AppLocalizations.of(context)!.translate('terms_agree_validate'));
-      }
+            
+      // if (double.parse(amount == '' ? '0.0' : amount ?? '0.0') >
+      //         getExchangedAmount(
+      //             destination!, destination.minAmount.toDouble()) &&
+      //     double.parse(amount == '' ? '0.0' : amount ?? '0.0') <
+      //         getExchangedAmount(
+      //             destination, destination.maxAmount.toDouble())) {
+      //   if (termsSt ==true) {
+      //     if (initModel!.customerVerified == 0 &&
+      //         selectedPhonePrefix != initModel!.customerPhonePrefix &&
+      //         initModel!.notificationMessage != null) {
+        
+      //     } else {
+      //       List<OperatorModel> operators = dictionaryModel!.operators!
+      //           .where(
+      //               (element) => element.operatorCode == selectedOperatorList)
+      //           .toList();
+      //       if (operators.isEmpty) {
+      //         return Message.show(context, 'Unsupported operator');
+      //       }
+                        
+      //       // try {
+      //       //   showDialog(
+      //       //       context: context,
+      //       //       builder: (context) => SendMoneyDialog(
+      //       //             name: name,
+      //       //             operator: operatorList[selectedOperatorList]!,
+      //       //             explain: selectedReason,
+      //       //             phoneNumber: phoneNumber!,
+      //       //             amount: amount!,
+      //       //             countryCode: selectedCountryCode,
+      //       //             onPaypalClicked: () async {
+      //       //               print(initModel!.globalSim1Name);
+      //       //               print(operators.first.simName);
+      //       //               initModel!.customerCountryCode = selectedCountryCode;
+      //       //               operators.first.simName = initModel!.globalSim1Name!;
+                     
+      //       //             //   if (initModel!.customerCountryCode ==
+      //       //             //       selectedCountryCode) {
+      //       //             //     if (operators.first.simName ==
+      //       //             //         initModel!.globalSim1Name) {
+                          
+      //       //             //     }
+      //       //             //   } else {
+      //       //             //     await Future.delayed(
+      //       //             //         const Duration(milliseconds: 250));
+      //       //             //     Navigator.pop(context);
+      //       //             //     await Future.delayed(
+      //       //             //         const Duration(milliseconds: 250));
+      //       //             //     paypalClicked();
+      //       //             //   }
+      //       //             // },
+      //       //             // onWalletClicked: () async {
+      //       //             //   if (double.parse(amount ?? '0.0') >
+      //       //             //       (initModel!.customerBalance ?? 0.0)) {
+      //       //             //     //AppNavigator.pushReplace(context: context, page: const WalletRefill());
+      //       //             //     //return;
+      //       //             //   }
+      //       //             //   if (initModel!.customerCountryCode ==
+      //       //             //       selectedCountryCode) {
+      //       //             //     if (operators.first.simName ==
+      //       //             //         initModel!.globalSim1Name) {
+      //       //             //       if (double.parse(amount ?? '0.0') +
+      //       //             //               initModel!.internalSendMoneyFee >
+      //       //             //           (initModel!.customerBalance ?? 0.0)) {
+      //       //             //         AppNavigator.pushReplace(
+      //       //             //             context: context,
+      //       //             //             page: const WalletRefill());
+      //       //             //         return;
+      //       //             //       }
+      //       //             //     }
+      //       //             //   }
+      //       //             //   await Future.delayed(
+      //       //             //       const Duration(milliseconds: 250));
+      //       //             //   Navigator.pop(context);
+      //       //             //   await Future.delayed(
+      //       //             //       const Duration(milliseconds: 250));
+      //       //               walletClicked();
+      //       //             },
+      //       //           ));
+      //       // } 
+      //       // catch (error) {
+      //       //   if (!AppConfig.isPublished) {
+      //       //     print('error: $error');
+      //       //   }
+      //       // }
+      //     }
+      //   } else {
+      //     Message.show(context,
+      //         AppLocalizations.of(context)!.translate('terms_agree_validate'));
+      //   }
+      // } else {
+      //   Message.show(context,
+      //       AppLocalizations.of(context)!.translate('terms_agree_validate'));
+      // }
     }
   }
 
